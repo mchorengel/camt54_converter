@@ -8,14 +8,48 @@ Unterstützt die gängigen camt.054-Varianten (`camt.054.001.02` bis
 
 ## Installation
 
+Benötigt Python ≥ 3.10. Einzige externe Abhängigkeit ist `Flask` für die Webanwendung —
+die CLI funktioniert auch ohne.
+
+### Linux / macOS
+
 ```bash
+python -m venv .venv
+source .venv/bin/activate
 pip install -r requirements.txt
 # oder als Paket installieren:
 pip install .
 ```
 
-Benötigt Python ≥ 3.10. Einzige externe Abhängigkeit ist `Flask` für die Webanwendung —
-die CLI funktioniert auch ohne.
+### Windows
+
+Im Repo-Ordner liegen zwei Setup-Scripts, die `.venv` anlegen, aktivieren und
+die Abhängigkeiten installieren:
+
+**CMD (cmd.exe)** — mit `call` aufrufen, damit das venv aktiv bleibt:
+
+```bat
+call setup.bat
+```
+
+**PowerShell** — mit Punkt-Leerzeichen (dot-sourcen) aufrufen:
+
+```powershell
+. .\setup.ps1
+```
+
+Falls PowerShell das Ausführen von Scripts verweigert, einmalig erlauben mit:
+
+```powershell
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned
+```
+
+Bei späteren Sessions reicht es, das venv direkt zu aktivieren:
+
+```bat
+.venv\Scripts\activate.bat        :: CMD
+.\.venv\Scripts\Activate.ps1      # PowerShell
+```
 
 ## Kommandozeile
 
