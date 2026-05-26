@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.054.001.02">
+  <BkToCstmrDbtCdtNtfctn>
+    <GrpHdr>
+      <MsgId>MSG-20260115-0001</MsgId>
+      <CreDtTm>2026-01-15T10:00:00</CreDtTm>
+    </GrpHdr>
+    <Ntfctn>
+      <Id>NTF-20260115-0001</Id>
+      <CreDtTm>2026-01-15T10:00:00</CreDtTm>
+      <Acct>
+        <Id><IBAN>DE89370400440532013000</IBAN></Id>
+        <Ccy>EUR</Ccy>
+      </Acct>
+      <Ntry>
+        <Amt Ccy="EUR">150.75</Amt>
+        <CdtDbtInd>CRDT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt><Dt>2026-01-14</Dt></BookgDt>
+        <ValDt><Dt>2026-01-14</Dt></ValDt>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>RCDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>RECHNUNG-2026-001</EndToEndId>
+            </Refs>
+            <Amt Ccy="EUR">150.75</Amt>
+            <CdtDbtInd>CRDT</CdtDbtInd>
+            <RltdPties>
+              <Dbtr>
+                <Nm>Max Mustermann GmbH</Nm>
+              </Dbtr>
+              <DbtrAcct>
+                <Id><IBAN>DE12500105170648489890</IBAN></Id>
+              </DbtrAcct>
+            </RltdPties>
+            <RltdAgts>
+              <DbtrAgt>
+                <FinInstnId><BIC>INGDDEFFXXX</BIC></FinInstnId>
+              </DbtrAgt>
+            </RltdAgts>
+            <RmtInf>
+              <Ustrd>Zahlung Rechnung 2026-001</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+      <Ntry>
+        <Amt Ccy="EUR">42.00</Amt>
+        <CdtDbtInd>DBIT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt><Dt>2026-01-15</Dt></BookgDt>
+        <ValDt><Dt>2026-01-15</Dt></ValDt>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>ICDT</Cd>
+              <SubFmlyCd>DMCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <AddtlNtryInf>Lastschrift Strom</AddtlNtryInf>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>STROM-2026-Q1</EndToEndId>
+              <MndtId>MANDAT-12345</MndtId>
+            </Refs>
+            <Amt Ccy="EUR">42.00</Amt>
+            <CdtDbtInd>DBIT</CdtDbtInd>
+            <RltdPties>
+              <Cdtr>
+                <Nm>Stadtwerke Beispielheim</Nm>
+                <Id>
+                  <OrgId>
+                    <Othr>
+                      <Id>DE98ZZZ09999999999</Id>
+                    </Othr>
+                  </OrgId>
+                </Id>
+              </Cdtr>
+              <CdtrAcct>
+                <Id><IBAN>DE02300209000106531065</IBAN></Id>
+              </CdtrAcct>
+            </RltdPties>
+            <RltdAgts>
+              <CdtrAgt>
+                <FinInstnId><BIC>CMCIDEDDXXX</BIC></FinInstnId>
+              </CdtrAgt>
+            </RltdAgts>
+            <RmtInf>
+              <Ustrd>Stromabschlag Q1 2026 Kundennr 998877</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+    </Ntfctn>
+  </BkToCstmrDbtCdtNtfctn>
+</Document>

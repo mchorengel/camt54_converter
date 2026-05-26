@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "camt54-converter"
+version = "0.1.0"
+description = "Convert camt.054 (ISO 20022) XML files to CSV. CLI + mini web app."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+dependencies = [
+  "Flask>=3.0.0",
+]
+
+[project.scripts]
+camt54-to-csv = "camt54_converter.cli:main"
+camt54-web = "camt54_converter.web:main"
+
+[tool.setuptools.packages.find]
+include = ["camt54_converter*"]
