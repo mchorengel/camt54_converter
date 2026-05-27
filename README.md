@@ -70,6 +70,13 @@ cat avis.xml | python -m camt54_converter.cli -
 camt54-to-csv avis.xml -o avis.csv
 ```
 
+### Windows: Drag & Drop
+
+Im Repo-Ordner liegt `convert.bat`. Eine oder mehrere camt.054-XML-Dateien
+einfach mit der Maus auf diese Datei ziehen — neben jeder XML-Datei wird
+eine CSV mit gleichem Namen erzeugt. Voraussetzung: einmalig
+`call setup.bat` ausführen, damit `.venv` existiert.
+
 ### Optionen
 
 | Flag                | Bedeutung                                                |
