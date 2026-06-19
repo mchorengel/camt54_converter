@@ -1,4 +1,4 @@
-"""Tiny Flask web app for camt.054 → CSV conversion."""
+"""Tiny Flask web app for ISO 20022 → CSV conversion."""
 
 from __future__ import annotations
 
@@ -6,7 +6,7 @@ from pathlib import Path
 
 from flask import Flask, Response, render_template, request
 
-from camt54_converter.parser import parse_camt054, to_csv_string
+from camt54_converter.parser import parse, to_csv_string
 
 
 MAX_UPLOAD_BYTES = 16 * 1024 * 1024  # 16 MB
@@ -29,7 +29,8 @@ def create_app() -> Flask:
         uploads = [f for f in uploads if f and f.filename]
         if not uploads:
             return render_template(
-                "index.html", error="Bitte mindestens eine camt.054-Datei auswählen."
+                "index.html",
+                error="Bitte mindestens eine ISO-20022-XML-Datei auswählen.",
             ), 400
 
         delimiter = request.form.get("delimiter", ";")
@@ -40,7 +41,7 @@ def create_app() -> Flask:
         try:
             for upload in uploads:
                 data = upload.read()
-                all_tx.extend(parse_camt054(data))
+                all_tx.extend(parse(data))
         except ValueError as exc:
             return render_template("index.html", error=str(exc)), 400
         except Exception as exc:  # noqa: BLE001 — surface parser errors to UI
@@ -50,7 +51,7 @@ def create_app() -> Flask:
 
         csv_data = to_csv_string(all_tx, delimiter=delimiter)
         download_name = (
-            Path(uploads[0].filename).stem + ".csv" if len(uploads) == 1 else "camt054.csv"
+            Path(uploads[0].filename).stem + ".csv" if len(uploads) == 1 else "iso20022.csv"
         )
         return Response(
             csv_data,

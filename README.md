@@ -1,10 +1,17 @@
 # camt54_converter
 
-Konvertiert **camt.054** (ISO 20022 *Bank-to-Customer Debit/Credit Notification*)
-XML-Dateien nach **CSV** — als Kommandozeilen-Tool **und** als Mini-Webanwendung.
+Konvertiert **ISO-20022-XML-Dateien** nach **CSV** — als Kommandozeilen-Tool **und**
+als Mini-Webanwendung. Das Quellformat wird automatisch am Document-Root erkannt.
 
-Unterstützt die gängigen camt.054-Varianten (`camt.054.001.02` bis
-`camt.054.001.08+`); der XML-Namespace wird automatisch erkannt.
+| Format    | ISO-20022-Name                                | Inhalt                                |
+| --------- | --------------------------------------------- | ------------------------------------- |
+| camt.054  | Bank-to-Customer Debit/Credit Notification    | Bank-Avise (Eingänge/Ausgänge)        |
+| camt.053  | Bank-to-Customer Statement                    | Tages-Kontoauszug                     |
+| pain.001  | Customer Credit Transfer Initiation           | SEPA-Auftragsdatei: Überweisungen     |
+| pain.008  | Customer Direct Debit Initiation              | SEPA-Auftragsdatei: Lastschriften     |
+
+Der XML-Namespace wird ebenfalls automatisch erkannt — gängige Versionen
+(`.001.02` bis `.001.08+`) funktionieren ohne Anpassung.
 
 ## Installation
 
@@ -57,8 +64,8 @@ Bei späteren Sessions reicht es, das venv direkt zu aktivieren:
 # Eine Datei in eine CSV umwandeln (Trennzeichen ";" als Default)
 python -m camt54_converter.cli avis.xml -o avis.csv
 
-# Mehrere Dateien zusammenführen
-python -m camt54_converter.cli jan/*.xml -o januar.csv
+# Mehrere Dateien zusammenführen — Formate dürfen gemischt werden
+python -m camt54_converter.cli camt054/*.xml pain001/*.xml -o alles.csv
 
 # Auf stdout ausgeben, mit Komma als Trennzeichen
 python -m camt54_converter.cli avis.xml -d ,
@@ -72,7 +79,7 @@ camt54-to-csv avis.xml -o avis.csv
 
 ### Windows: Drag & Drop
 
-Im Repo-Ordner liegt `convert.bat`. Eine oder mehrere camt.054-XML-Dateien
+Im Repo-Ordner liegt `convert.bat`. Eine oder mehrere ISO-20022-XML-Dateien
 einfach mit der Maus auf diese Datei ziehen — neben jeder XML-Datei wird
 eine CSV mit gleichem Namen erzeugt. Voraussetzung: einmalig
 `call setup.bat` ausführen, damit `.venv` existiert.
@@ -81,7 +88,7 @@ eine CSV mit gleichem Namen erzeugt. Voraussetzung: einmalig
 
 | Flag                | Bedeutung                                                |
 | ------------------- | -------------------------------------------------------- |
-| `input`             | Pfade zu camt.054-XML-Dateien (oder `-` für stdin)       |
+| `input`             | Pfade zu ISO-20022-XML-Dateien (oder `-` für stdin)      |
 | `-o`, `--output`    | Ziel-CSV-Datei (Default: stdout)                         |
 | `-d`, `--delimiter` | Spaltentrennzeichen (Default: `;`)                       |
 | `--encoding`        | Ausgabe-Kodierung (Default: `utf-8`)                     |
@@ -94,45 +101,52 @@ python -m camt54_converter.web
 camt54-web --host 0.0.0.0 --port 5000
 ```
 
-Anschließend im Browser <http://127.0.0.1:5000> öffnen, eine oder mehrere
-camt.054-Dateien hochladen, Trennzeichen wählen — und die CSV wird direkt
-zurückgegeben.
+Im Browser <http://127.0.0.1:5000> öffnen, eine oder mehrere XML-Dateien
+hochladen (Formate dürfen gemischt sein), Trennzeichen wählen — und die
+CSV wird direkt zurückgegeben.
 
 ## CSV-Spalten
 
-Jede Zeile entspricht einer Transaktion (`TxDtls`); enthält eine Buchung
-keine Details, wird der Eintrag (`Ntry`) selbst als Zeile abgebildet.
+Die Spalten sind über alle vier Formate identisch; nicht zutreffende Felder
+bleiben leer (z. B. hat eine pain.001-Auftragsdatei kein `booking_date`).
+Die erste Spalte `source_format` zeigt, aus welchem Format eine Zeile stammt.
 
-| Spalte                | Quelle in camt.054                                                  |
-| --------------------- | ------------------------------------------------------------------- |
-| `statement_id`        | `Ntfctn/Id`                                                         |
-| `account_iban`        | `Ntfctn/Acct/Id/IBAN` (oder `Othr/Id`)                              |
-| `account_currency`    | `Ntfctn/Acct/Ccy`                                                   |
-| `booking_date`        | `Ntry/BookgDt/Dt`                                                   |
-| `value_date`          | `Ntry/ValDt/Dt`                                                     |
-| `amount`              | `TxDtls/Amt` (fallback `Ntry/Amt`)                                  |
-| `currency`            | Attribut `Ccy` des Betrags                                          |
-| `credit_debit`        | `CRDT` / `DBIT`                                                     |
-| `reversal`            | `RvslInd`                                                           |
-| `status`              | `Ntry/Sts`                                                          |
-| `bank_tx_code`        | `BkTxCd/Domn/Cd` `/Fmly/Cd` `/SubFmlyCd` + `Prtry/Cd`               |
-| `end_to_end_id`       | `TxDtls/Refs/EndToEndId`                                            |
-| `mandate_id`          | `TxDtls/Refs/MndtId`                                                |
-| `creditor_id`         | `RltdPties/Cdtr/Id/PrvtId|OrgId/Othr/Id`                            |
-| `counterparty_name`   | Bei `CRDT`: `Dbtr/Nm`, bei `DBIT`: `Cdtr/Nm`                        |
-| `counterparty_iban`   | Konto der Gegenpartei                                               |
-| `counterparty_bic`    | `RltdAgts/.../FinInstnId/BIC` (oder `BICFI`)                        |
-| `remittance_info`     | `RmtInf/Ustrd` + `RmtInf/Strd/...`                                  |
-| `additional_info`     | `Ntry/AddtlNtryInf` + `TxDtls/AddtlTxInf`                           |
+| Spalte               | camt.054 / camt.053                              | pain.001                          | pain.008                                |
+| -------------------- | ------------------------------------------------ | --------------------------------- | --------------------------------------- |
+| `source_format`      | `camt.054` / `camt.053`                          | `pain.001`                        | `pain.008`                              |
+| `statement_id`       | `Ntfctn/Id` bzw. `Stmt/Id`                       | `GrpHdr/MsgId`                    | `GrpHdr/MsgId`                          |
+| `account_iban`       | Konto-IBAN                                       | `Dbtr`-IBAN (Auftraggeber)        | `Cdtr`-IBAN (Auftraggeber)              |
+| `account_currency`   | `Acct/Ccy`                                       | `DbtrAcct/Ccy`                    | `CdtrAcct/Ccy`                          |
+| `booking_date`       | `Ntry/BookgDt/Dt`                                | —                                 | —                                       |
+| `value_date`         | `Ntry/ValDt/Dt`                                  | `ReqdExctnDt`                     | `ReqdColltnDt`                          |
+| `amount` / `currency`| `TxDtls/Amt` (fallback `Ntry/Amt`)               | `Amt/InstdAmt`                    | `InstdAmt`                              |
+| `credit_debit`       | `CRDT` / `DBIT`                                  | `DBIT` (Auftraggebersicht)        | `CRDT` (Auftraggebersicht)              |
+| `status`             | `Ntry/Sts`                                       | —                                 | —                                       |
+| `bank_tx_code`       | `BkTxCd/Domn/...` + `Prtry/Cd`                   | `PmtTpInf/SvcLvl/Cd` (z. B. SEPA) | `SvcLvl/Cd` + `SeqTp` (z. B. SEPA/RCUR) |
+| `end_to_end_id`      | `TxDtls/Refs/EndToEndId`                         | `PmtId/EndToEndId`                | `PmtId/EndToEndId`                      |
+| `mandate_id`         | `TxDtls/Refs/MndtId`                             | —                                 | `MndtRltdInf/MndtId`                    |
+| `creditor_id`        | `RltdPties/Cdtr/Id/...`                          | —                                 | `CdtrSchmeId/Id/...`                    |
+| `counterparty_name`  | Bei `CRDT`: `Dbtr/Nm`, bei `DBIT`: `Cdtr/Nm`     | `Cdtr/Nm`                         | `Dbtr/Nm`                               |
+| `counterparty_iban`  | Konto der Gegenpartei                            | `CdtrAcct`-IBAN                   | `DbtrAcct`-IBAN                         |
+| `counterparty_bic`   | `RltdAgts/.../FinInstnId/BIC`                    | `CdtrAgt/FinInstnId/BIC`          | `DbtrAgt/FinInstnId/BIC`                |
+| `remittance_info`    | `RmtInf/Ustrd` + `RmtInf/Strd/...`               | dito                              | dito                                    |
+| `additional_info`    | `Ntry/AddtlNtryInf` + `TxDtls/AddtlTxInf`        | Auftraggeber-Name + `PmtInfId`    | Auftraggeber-Name + `PmtInfId`          |
 
 ## Als Bibliothek
 
 ```python
-from camt54_converter import parse_camt054, write_csv
+from camt54_converter import parse, write_csv, detect_format
 
-with open("avis.xml", "rb") as fh:
-    txs = parse_camt054(fh)
+with open("datei.xml", "rb") as fh:
+    data = fh.read()
 
-with open("avis.csv", "w", encoding="utf-8", newline="") as out:
+print(detect_format(data))   # 'camt.054' / 'camt.053' / 'pain.001' / 'pain.008'
+txs = parse(data)            # automatische Format-Erkennung
+
+with open("ausgabe.csv", "w", encoding="utf-8", newline="") as out:
     write_csv(txs, out, delimiter=";")
 ```
+
+Wer ausdrücklich nur camt.054 akzeptieren möchte, kann weiterhin
+`parse_camt054()` verwenden — andere Formate werden mit einem klaren Fehler
+abgelehnt.

@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>camt.054 → CSV Converter</title>
+  <title>ISO 20022 → CSV Converter</title>
   <style>
     :root {
       --bg: #f5f6f8;
@@ -103,15 +103,18 @@
 </head>
 <body>
   <main class="card">
-    <h1>camt.054 → CSV</h1>
-    <p class="lead">Lade eine oder mehrere camt.054 XML-Dateien hoch und erhalte eine CSV-Datei zurück.</p>
+    <h1>ISO 20022 → CSV</h1>
+    <p class="lead">
+      Lade eine oder mehrere ISO-20022-XML-Dateien hoch und erhalte eine CSV-Datei zurück.
+      Das Quellformat (camt.054, camt.053, pain.001, pain.008) wird automatisch erkannt.
+    </p>
 
     {% if error %}
       <div class="error">{{ error }}</div>
     {% endif %}
 
     <form action="/convert" method="post" enctype="multipart/form-data">
-      <label for="file">camt.054 XML-Datei(en)</label>
+      <label for="file">ISO-20022-XML-Datei(en)</label>
       <input id="file" type="file" name="file" accept=".xml,application/xml,text/xml" multiple required />
 
       <div class="row">

@@ -1,6 +1,22 @@
-"""camt.054 to CSV converter."""
+"""ISO 20022 (camt.054 / camt.053 / pain.001 / pain.008) to CSV converter."""
 
-from camt54_converter.parser import parse_camt054, write_csv, CSV_FIELDS
+from camt54_converter.parser import (
+    CSV_FIELDS,
+    Transaction,
+    detect_format,
+    parse,
+    parse_camt054,
+    to_csv_string,
+    write_csv,
+)
 
-__all__ = ["parse_camt054", "write_csv", "CSV_FIELDS"]
-__version__ = "0.1.0"
+__all__ = [
+    "CSV_FIELDS",
+    "Transaction",
+    "detect_format",
+    "parse",
+    "parse_camt054",
+    "to_csv_string",
+    "write_csv",
+]
+__version__ = "0.2.0"

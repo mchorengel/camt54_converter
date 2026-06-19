@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pain.001.001.03">
+  <CstmrCdtTrfInitn>
+    <GrpHdr>
+      <MsgId>SEPA-CT-20260115-0001</MsgId>
+      <CreDtTm>2026-01-15T09:00:00</CreDtTm>
+      <NbOfTxs>2</NbOfTxs>
+      <CtrlSum>275.50</CtrlSum>
+      <InitgPty><Nm>Max Mustermann</Nm></InitgPty>
+    </GrpHdr>
+    <PmtInf>
+      <PmtInfId>BATCH-001</PmtInfId>
+      <PmtMtd>TRF</PmtMtd>
+      <NbOfTxs>2</NbOfTxs>
+      <CtrlSum>275.50</CtrlSum>
+      <PmtTpInf>
+        <SvcLvl><Cd>SEPA</Cd></SvcLvl>
+      </PmtTpInf>
+      <ReqdExctnDt>2026-01-16</ReqdExctnDt>
+      <Dbtr><Nm>Max Mustermann</Nm></Dbtr>
+      <DbtrAcct>
+        <Id><IBAN>DE89370400440532013000</IBAN></Id>
+        <Ccy>EUR</Ccy>
+      </DbtrAcct>
+      <DbtrAgt>
+        <FinInstnId><BIC>COBADEFFXXX</BIC></FinInstnId>
+      </DbtrAgt>
+      <CdtTrfTxInf>
+        <PmtId><EndToEndId>MIETE-2026-01</EndToEndId></PmtId>
+        <Amt><InstdAmt Ccy="EUR">250.00</InstdAmt></Amt>
+        <CdtrAgt>
+          <FinInstnId><BIC>INGDDEFFXXX</BIC></FinInstnId>
+        </CdtrAgt>
+        <Cdtr><Nm>Hausverwaltung GmbH</Nm></Cdtr>
+        <CdtrAcct>
+          <Id><IBAN>DE02300209000106531065</IBAN></Id>
+        </CdtrAcct>
+        <RmtInf><Ustrd>Miete Januar 2026</Ustrd></RmtInf>
+      </CdtTrfTxInf>
+      <CdtTrfTxInf>
+        <PmtId><EndToEndId>TASCHENGELD</EndToEndId></PmtId>
+        <Amt><InstdAmt Ccy="EUR">25.50</InstdAmt></Amt>
+        <Cdtr><Nm>Anna Mustermann</Nm></Cdtr>
+        <CdtrAcct>
+          <Id><IBAN>DE44500105175407324931</IBAN></Id>
+        </CdtrAcct>
+        <RmtInf><Ustrd>Taschengeld Januar</Ustrd></RmtInf>
+      </CdtTrfTxInf>
+    </PmtInf>
+  </CstmrCdtTrfInitn>
+</Document>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:pain.008.001.02">
+  <CstmrDrctDbtInitn>
+    <GrpHdr>
+      <MsgId>SEPA-DD-20260115-0001</MsgId>
+      <CreDtTm>2026-01-15T09:00:00</CreDtTm>
+      <NbOfTxs>1</NbOfTxs>
+      <CtrlSum>12.99</CtrlSum>
+      <InitgPty><Nm>Beispielverein e.V.</Nm></InitgPty>
+    </GrpHdr>
+    <PmtInf>
+      <PmtInfId>DD-BATCH-001</PmtInfId>
+      <PmtMtd>DD</PmtMtd>
+      <NbOfTxs>1</NbOfTxs>
+      <CtrlSum>12.99</CtrlSum>
+      <PmtTpInf>
+        <SvcLvl><Cd>SEPA</Cd></SvcLvl>
+        <LclInstrm><Cd>CORE</Cd></LclInstrm>
+        <SeqTp>RCUR</SeqTp>
+      </PmtTpInf>
+      <ReqdColltnDt>2026-02-01</ReqdColltnDt>
+      <Cdtr><Nm>Beispielverein e.V.</Nm></Cdtr>
+      <CdtrAcct>
+        <Id><IBAN>DE02300209000106531065</IBAN></Id>
+        <Ccy>EUR</Ccy>
+      </CdtrAcct>
+      <CdtrAgt>
+        <FinInstnId><BIC>CMCIDEDDXXX</BIC></FinInstnId>
+      </CdtrAgt>
+      <CdtrSchmeId>
+        <Id>
+          <PrvtId>
+            <Othr>
+              <Id>DE98ZZZ09999999999</Id>
+              <SchmeNm><Prtry>SEPA</Prtry></SchmeNm>
+            </Othr>
+          </PrvtId>
+        </Id>
+      </CdtrSchmeId>
+      <DrctDbtTxInf>
+        <PmtId><EndToEndId>MITGLIED-2026-Q1</EndToEndId></PmtId>
+        <InstdAmt Ccy="EUR">12.99</InstdAmt>
+        <DrctDbtTx>
+          <MndtRltdInf>
+            <MndtId>MNDT-4711</MndtId>
+            <DtOfSgntr>2025-06-01</DtOfSgntr>
+          </MndtRltdInf>
+        </DrctDbtTx>
+        <DbtrAgt>
+          <FinInstnId><BIC>INGDDEFFXXX</BIC></FinInstnId>
+        </DbtrAgt>
+        <Dbtr><Nm>Max Mustermann</Nm></Dbtr>
+        <DbtrAcct>
+          <Id><IBAN>DE89370400440532013000</IBAN></Id>
+        </DbtrAcct>
+        <RmtInf><Ustrd>Mitgliedsbeitrag Q1 2026</Ustrd></RmtInf>
+      </DrctDbtTxInf>
+    </PmtInf>
+  </CstmrDrctDbtInitn>
+</Document>

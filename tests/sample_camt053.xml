@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Document xmlns="urn:iso:std:iso:20022:tech:xsd:camt.053.001.02">
+  <BkToCstmrStmt>
+    <GrpHdr>
+      <MsgId>STMT-20260115-0001</MsgId>
+      <CreDtTm>2026-01-15T23:00:00</CreDtTm>
+    </GrpHdr>
+    <Stmt>
+      <Id>STM-2026-01</Id>
+      <CreDtTm>2026-01-15T23:00:00</CreDtTm>
+      <Acct>
+        <Id><IBAN>DE89370400440532013000</IBAN></Id>
+        <Ccy>EUR</Ccy>
+      </Acct>
+      <Ntry>
+        <Amt Ccy="EUR">980.00</Amt>
+        <CdtDbtInd>CRDT</CdtDbtInd>
+        <Sts>BOOK</Sts>
+        <BookgDt><Dt>2026-01-13</Dt></BookgDt>
+        <ValDt><Dt>2026-01-13</Dt></ValDt>
+        <BkTxCd>
+          <Domn>
+            <Cd>PMNT</Cd>
+            <Fmly>
+              <Cd>RCDT</Cd>
+              <SubFmlyCd>ESCT</SubFmlyCd>
+            </Fmly>
+          </Domn>
+        </BkTxCd>
+        <NtryDtls>
+          <TxDtls>
+            <Refs>
+              <EndToEndId>GEHALT-2026-01</EndToEndId>
+            </Refs>
+            <Amt Ccy="EUR">980.00</Amt>
+            <CdtDbtInd>CRDT</CdtDbtInd>
+            <RltdPties>
+              <Dbtr><Nm>ACME Beispiel AG</Nm></Dbtr>
+              <DbtrAcct>
+                <Id><IBAN>DE12500105170648489890</IBAN></Id>
+              </DbtrAcct>
+            </RltdPties>
+            <RltdAgts>
+              <DbtrAgt>
+                <FinInstnId><BIC>INGDDEFFXXX</BIC></FinInstnId>
+              </DbtrAgt>
+            </RltdAgts>
+            <RmtInf>
+              <Ustrd>Gehalt Januar 2026</Ustrd>
+            </RmtInf>
+          </TxDtls>
+        </NtryDtls>
+      </Ntry>
+    </Stmt>
+  </BkToCstmrStmt>
+</Document>
